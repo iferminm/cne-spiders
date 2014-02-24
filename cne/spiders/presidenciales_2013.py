@@ -81,4 +81,5 @@ class Presidenciales2013Spider(BaseSpider):
 
 
     def parse_mesa(self, response):
-        pass
+        comun = response.meta['common_info']
+        selector = Selector(response)
