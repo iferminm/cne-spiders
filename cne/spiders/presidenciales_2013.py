@@ -83,3 +83,34 @@ class Presidenciales2013Spider(BaseSpider):
     def parse_mesa(self, response):
         comun = response.meta['common_info']
         selector = Selector(response)
+
+        info = selector.xpath('//div[@id="fichaTecnica"]/table/tr[@class="tblightrow"]')
+        mesa_info = InformacionMesa()
+        
+        mesa_info['electores'] = info[0].xpath('.//td/text()')[-1].extract()
+        mesa_info['electores_en_actas'] = info[1].xpath('.//td/text()')[-1].extract()
+        mesa_info['electores_escrutados'] = info[2].xpath('.//td/text()')[-1].extract()
+        mesa_info['votos'] = info[4].xpath('.//td/text()')[-1].extract()
+        mesa_info['nulos'] = info[6].xpath('.//td/text()')[-1].extract()
+        mesa_info['actas'] = info[7].xpath('.//td/text()')[-1].extract()
+        mesa_info['actas_escrutadas'] = info[8].xpath('.//td/text()')[-1].extract()
+
+        subtotals = selector.xpath('//div[@id="tablaResultados"]/table/tr[@class="tbsubtotalrow"]')
+
+        results = list()
+        for subtotal in subtotals:
+            row_data = subtotal.xpath('.//td[@class="lightRowContent"]')
+
+            mesa_result = ResultadoMesa()
+            mesa_result['candidato'] = row_data[1].xpath('.//a/text()')[0].extract()  # Eliminamos la primera celda porque no nos interesa la foto
+            mesa_result['cargo'] = u'Presidente de la República'
+            mesa_result['votos'] = row_data[2].xpath('.//span/text()')[0].extract()
+            mesa_result['porcentaje'] = row_data[3].xpath('.//span/text()')[0].extract()
+
+
+            mesa_result['comun'] = [dict(comun)]
+            mesa_result['ficha_tecnica'] = [dict(mesa_info)]
+
+            results.append(mesa_result)
+
+        return results
