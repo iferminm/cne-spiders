@@ -5,9 +5,12 @@ from scrapy.contrib.spiders import CrawlSpider, Rule
 from cne.items import Common, InformacionMesa, ResultadoMesa
 from scrapy.http.request import Request
 
-class Presidenciales2013Spider(BaseSpider):
+class Presidenciales2013y2012Spider(BaseSpider):
     name = 'presidenciales_2013'
-    start_urls = ['http://www.cne.gob.ve/resultado_presidencial_2013/r/1/reg_000000.html?',]
+    start_urls = [
+        'http://www.cne.gob.ve/resultado_presidencial_2012/r/1/reg_000000.html?',
+        'http://www.cne.gob.ve/resultado_presidencial_2013/r/1/reg_000000.html?',
+    ]
 
     def parse(self, response):
         selector = Selector(response)
@@ -20,6 +23,7 @@ class Presidenciales2013Spider(BaseSpider):
             url_tokens = response.url.split('/')
             url_tokens[-3], url_tokens[-2], url_tokens[-1] = region_code_page
             url = '/'.join(url_tokens)
+
             yield Request(url, meta={'common_info': comun}, callback=self.parse_estado)
 
     def parse_estado(self, response):
@@ -34,6 +38,7 @@ class Presidenciales2013Spider(BaseSpider):
             url_tokens = response.url.split('/')
             url_tokens[-3], url_tokens[-2], url_tokens[-1] = region_code_page
             url = '/'.join(url_tokens)
+
             yield Request(url, meta={'common_info': comun}, callback=self.parse_municipio)
 
 
@@ -49,6 +54,7 @@ class Presidenciales2013Spider(BaseSpider):
             url_tokens = response.url.split('/')
             url_tokens[-3], url_tokens[-2], url_tokens[-1] = region_code_page
             url = '/'.join(url_tokens)
+
             yield Request(url, meta={'common_info': comun}, callback=self.parse_parroquia)
 
     def parse_parroquia(self, response):
@@ -63,6 +69,7 @@ class Presidenciales2013Spider(BaseSpider):
             url_tokens = response.url.split('/')
             url_tokens[-3], url_tokens[-2], url_tokens[-1] = region_code_page
             url = '/'.join(url_tokens)
+
             yield Request(url, meta={'common_info': comun}, callback=self.parse_centro)
 
     def parse_centro(self, response):
@@ -77,8 +84,8 @@ class Presidenciales2013Spider(BaseSpider):
             url_tokens = response.url.split('/')
             url_tokens[-3], url_tokens[-2], url_tokens[-1] = region_code_page
             url = '/'.join(url_tokens)
-            yield Request(url, meta={'common_info': comun}, callback=self.parse_mesa)
 
+            yield Request(url, meta={'common_info': comun}, callback=self.parse_mesa)
 
     def parse_mesa(self, response):
         comun = response.meta['common_info']
@@ -113,4 +120,6 @@ class Presidenciales2013Spider(BaseSpider):
 
             results.append(mesa_result)
 
+        print results
+        import pdb; pdb.set_trace()
         return results
