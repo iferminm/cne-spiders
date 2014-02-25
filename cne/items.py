@@ -27,9 +27,13 @@ class InformacionMesa(Common):
     para un proceso dado
     """
     electores = Field()
-    votantes = Field()
+    electores_en_actas = Field()
+    electores_escrutados = Field()
+    votos = Field()
     nulos = Field()
     abstencion = Field()
+    actas = Field()
+    actas_escrutadas = Field()
 
 
 class ResultadoMesa(Common):
@@ -41,3 +45,6 @@ class ResultadoMesa(Common):
     candidato = Field()
     cargo = Field()
     votos = Field()
+    porcentaje = Field()
+    comun = Field()
+    ficha_tecnica = Field()
