@@ -11,5 +11,12 @@ BOT_NAME = 'cne'
 SPIDER_MODULES = ['cne.spiders']
 NEWSPIDER_MODULE = 'cne.spiders'
 
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'cne (+http://www.yourdomain.com)'
+CONCURRENT_ITEMS = 200
+CONCURRENT_REQUESTS = 50
+DOWNLOAD_DELAY = 0.01
+
+#USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:26.0) Gecko/20100101 Firefox/26.0'
+
+ITEM_PIPELINES = {
+    'cne.pipelines.FormatDataPipeline': 200,
+}

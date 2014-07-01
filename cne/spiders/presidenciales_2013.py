@@ -120,6 +120,4 @@ class Presidenciales2013y2012Spider(BaseSpider):
 
             results.append(mesa_result)
 
-        print results
-        import pdb; pdb.set_trace()
         return results
