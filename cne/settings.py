@@ -34,7 +34,7 @@ AGGREGATE_DB_CONF = {
 }
 
 AGGREGATE_DB = create_engine(
-    'mysql+mysqldb://%(user)s:%(password)s@%(host)s:%(port)s/%(db)s' % AGGREGATE_DB_CONF, 
+    'postgresql+psycopg2://%(user)s:%(password)s@%(host)s:%(port)s/%(db)s' % AGGREGATE_DB_CONF, 
     echo=False,
     encoding='utf-8',
     convert_unicode=True,
