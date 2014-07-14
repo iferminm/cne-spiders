@@ -25,19 +25,12 @@ ITEM_PIPELINES = {
 
 INSTALL_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-AGGREGATE_DB_CONF = { 
-    'db': os.environ.get('CNE_DB_NAME', 'scrapy'),
-    'user': os.environ.get('CNE_DB_USER', 'scrapy'),
-    'password': os.environ.get('CNE_DB_PASSWORD', 'scrapy'),
+DATABASE = { 
+    'drivername': 'postgres',
     'host': os.environ.get('CNE_DB_HOST', 'localhost'),
-    'port': os.environ.get('CNE_DB_PORT', 3306)
+    'port': os.environ.get('CNE_DB_PORT', 3306),
+    'username': os.environ.get('CNE_DB_USER', 'scrapy'),
+    'password': os.environ.get('CNE_DB_PASSWORD', 'scrapy'),
+    'database': os.environ.get('CNE_DB_NAME', 'scrapy')
 }
 
-AGGREGATE_DB = create_engine(
-    'postgresql+psycopg2://%(user)s:%(password)s@%(host)s:%(port)s/%(db)s' % AGGREGATE_DB_CONF, 
-    echo=False,
-    encoding='utf-8',
-    convert_unicode=True,
-)
-
-AGGREGATION_ENABLED = True
