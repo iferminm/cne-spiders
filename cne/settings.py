@@ -20,7 +20,7 @@ DOWNLOAD_DELAY = 0.01
 USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:26.0) Gecko/20100101 Firefox/26.0'
 
 ITEM_PIPELINES = {
-    'cne.pipelines.FormatDataPipeline': 200,
+    'cne.pipelines.SaveResultsPipeline': 200,
 }
 
 INSTALL_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -28,7 +28,7 @@ INSTALL_ROOT = os.path.dirname(os.path.abspath(__file__))
 DATABASE = { 
     'drivername': 'postgres',
     'host': os.environ.get('CNE_DB_HOST', 'localhost'),
-    'port': os.environ.get('CNE_DB_PORT', 3306),
+    'port': os.environ.get('CNE_DB_PORT', 5432),
     'username': os.environ.get('CNE_DB_USER', 'scrapy'),
     'password': os.environ.get('CNE_DB_PASSWORD', 'scrapy'),
     'database': os.environ.get('CNE_DB_NAME', 'scrapy')
