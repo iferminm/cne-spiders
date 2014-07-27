@@ -18,7 +18,10 @@ class Presidenciales2013y2012Spider(BaseSpider):
 
         for estado in estados:
             nombre = estado.xpath('text()').extract()[0]
-            comun = Common(proceso='Presidenciales', anio=2013, estado=nombre)
+            if 'resultado_presidencial_2013' in response.url:
+                comun = Common(proceso='Presidenciales', anio=2013, estado=nombre)
+            else:
+                comun = Common(proceso='Presidenciales', anio=2012, estado=nombre)
             region_code_page = estado.xpath('@href').extract()[0].split('/')[2:]
             url_tokens = response.url.split('/')
             url_tokens[-3], url_tokens[-2], url_tokens[-1] = region_code_page
@@ -115,8 +118,8 @@ class Presidenciales2013y2012Spider(BaseSpider):
             mesa_result['porcentaje'] = row_data[3].xpath('.//span/text()')[0].extract()
 
 
-            mesa_result['comun'] = [dict(comun)]
-            mesa_result['ficha_tecnica'] = [dict(mesa_info)]
+            mesa_result['comun'] = dict(comun)
+            mesa_result['ficha_tecnica'] = dict(mesa_info)
 
             results.append(mesa_result)
 
